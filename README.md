@@ -60,3 +60,5 @@ Animator.Play(string stateName, int layer = -1, float normalizedTime = float.Neg
 Animation.Play(string animation = null, PlayMode mode = PlayMode.StopSameLayer)|==>|Animation.RePlay(string animation = null, PlayMode mode = PlayMode.StopSameLayer)
 Animation.Stop(string animation = null)|==>|Animation.ReStop(string animation = null)
 Animation.Rewind(string animation = null)|==>|Animation.ReRewind(string animation = null)
+## 工程版本
+Unity 2020.3.24f1
