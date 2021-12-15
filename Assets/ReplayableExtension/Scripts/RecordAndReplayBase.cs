@@ -49,7 +49,7 @@ namespace ReplayableExtension
 
         protected int startTime = -1;
         protected int currentTime => Mathf.Max((int)(Time.time * 1000) - startTime, 0);
-        
+
         public static void Register(ReplayableUnit unit)
         {
             Debug.Log("注册物体：" + unit.name + "/" + unit.ID);
@@ -66,7 +66,7 @@ namespace ReplayableExtension
             OnStart.Invoke();
             foreach (var item in runtimeObject.List2)
             {
-                if(!(item is Transform))
+                if (!(item is Transform))
                     Destroy(item);
             }
             runtimeObject.Clear();
@@ -90,26 +90,34 @@ namespace ReplayableExtension
             return advanceObject.Get(obj) ?? runtimeObject.Get(obj);
         }
 
-        public static void Parse(string id, string type, List<string> command)
+        public static Object Parse(string id, string type, List<string> command)
         {
-            Object component = GetObject(id);
-            if (component == null)
+            Object obj = GetObject(id);
+            if (obj == null)
             {
                 Debug.LogError("未找到组件：" + id);
-                return;
+                return null;
             }
             //unit.CustomCommand.Invoke(component, type, command);
-
             switch (type)
             {
+                case ReplayableType.RE_INSTANTIATE:
+                    GameObject ins = Instantiate((GameObject)obj);
+                    if (ins.TryGetComponent(out ReplayableUnit unit))
+                    {
+                        unit.ID = XMLHelper.XMLToObject<string>(command[0]);
+                        unit.isAdvance = false;
+                        Register(unit);
+                    }
+                    else
+                        runtimeObject.Add(XMLHelper.XMLToObject<string>(command[0]), ins);
+                    return ins;
                 case ReplayableType.RE_DESTORY:
-                    Object obj = GetObject(id);
-                    if (obj == null) return;
                     Debug.Log("销毁物体：" + obj.name + "/" + id);
                     GameObject.Destroy(obj);
                     break;
                 case ReplayableType.RE_ACTIVE:
-                    ((Transform)component).gameObject.SetActive(XMLHelper.XMLToObject<bool>(command[0]));
+                    ((GameObject)obj).SetActive(XMLHelper.XMLToObject<bool>(command[0]));
                     break;
                 case ReplayableType.RE_PARENT:
                     Component transformParent;
@@ -117,76 +125,84 @@ namespace ReplayableExtension
                         transformParent = null;
                     else
                         transformParent = (Transform)GetObject(XMLHelper.XMLToObject<string>(command[0]));
-                    if (component == null) return;
-                    ((Transform)component).parent = (Transform)transformParent;
+                    ((Transform)obj).parent = (Transform)transformParent;
                     break;
                 case ReplayableType.RE_POSITION:
-                    ((Transform)component).position = XMLHelper.XMLToObject<Vector3>(command[0]);
+                    ((Transform)obj).position = XMLHelper.XMLToObject<Vector3>(command[0]);
                     break;
                 case ReplayableType.RE_LOCAL_POSITION:
-                    ((Transform)component).localPosition = XMLHelper.XMLToObject<Vector3>(command[0]);
+                    ((Transform)obj).localPosition = XMLHelper.XMLToObject<Vector3>(command[0]);
                     break;
                 case ReplayableType.RE_EULER_ANGLES:
-                    ((Transform)component).eulerAngles = XMLHelper.XMLToObject<Vector3>(command[0]);
+                    ((Transform)obj).eulerAngles = XMLHelper.XMLToObject<Vector3>(command[0]);
                     break;
                 case ReplayableType.RE_LOCAL_EULER_ANGLES:
-                    ((Transform)component).localEulerAngles = XMLHelper.XMLToObject<Vector3>(command[0]);
+                    ((Transform)obj).localEulerAngles = XMLHelper.XMLToObject<Vector3>(command[0]);
                     break;
                 case ReplayableType.RE_SCALE:
-                    ((Transform)component).localScale = XMLHelper.XMLToObject<Vector3>(command[0]);
+                    ((Transform)obj).localScale = XMLHelper.XMLToObject<Vector3>(command[0]);
                     break;
                 case ReplayableType.RE_MATERIAL_FLOAT:
-                    ((Renderer)component).materials[XMLHelper.XMLToObject<int>(command[2])].SetFloat(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<float>(command[1]));
+                    ((Renderer)obj).materials[XMLHelper.XMLToObject<int>(command[2])].SetFloat(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<float>(command[1]));
                     break;
                 case ReplayableType.RE_MATERIAL_COLOR:
-                    ((Renderer)component).materials[XMLHelper.XMLToObject<int>(command[2])].SetColor(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<Color>(command[1]));
+                    ((Renderer)obj).materials[XMLHelper.XMLToObject<int>(command[2])].SetColor(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<Color>(command[1]));
                     break;
                 case ReplayableType.RE_MATERIAL_VECTOR:
-                    ((Renderer)component).materials[XMLHelper.XMLToObject<int>(command[2])].SetVector(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<Vector4>(command[1]));
+                    ((Renderer)obj).materials[XMLHelper.XMLToObject<int>(command[2])].SetVector(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<Vector4>(command[1]));
+                    break;
+                case ReplayableType.RE_MATERIAL_TEXTURE:
+                    Texture tex;
+                    if (command.Count == 0)
+                        tex = null;
+                    else
+                        tex = (Texture)GetObject(XMLHelper.XMLToObject<string>(command[1]));
+                    ((Renderer)obj).materials[XMLHelper.XMLToObject<int>(command[2])].SetTexture(XMLHelper.XMLToObject<string>(command[0]), tex);
                     break;
                 case ReplayableType.RE_ANIMATOR_INTEGER:
-                    ((Animator)component).SetInteger(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<int>(command[1]));
+                    ((Animator)obj).SetInteger(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<int>(command[1]));
                     break;
                 case ReplayableType.RE_ANIMATOR_FLOAT:
-                    ((Animator)component).SetFloat(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<float>(command[1]));
+                    ((Animator)obj).SetFloat(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<float>(command[1]));
                     break;
                 case ReplayableType.RE_ANIMATOR_BOOL:
-                    ((Animator)component).SetBool(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<bool>(command[1]));
+                    ((Animator)obj).SetBool(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<bool>(command[1]));
                     break;
                 case ReplayableType.RE_ANIMATOR_TRIGGER:
-                    ((Animator)component).SetTrigger(XMLHelper.XMLToObject<string>(command[0]));
+                    ((Animator)obj).SetTrigger(XMLHelper.XMLToObject<string>(command[0]));
                     break;
                 case ReplayableType.RE_ANIMATOR_RESET_TRIGGER:
-                    ((Animator)component).ResetTrigger(XMLHelper.XMLToObject<string>(command[0]));
+                    ((Animator)obj).ResetTrigger(XMLHelper.XMLToObject<string>(command[0]));
                     break;
                 case ReplayableType.RE_ANIMATOR_PLAY:
-                    ((Animator)component).Play(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<int>(command[1]), XMLHelper.XMLToObject<float>(command[2]));
+                    ((Animator)obj).Play(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<int>(command[1]), XMLHelper.XMLToObject<float>(command[2]));
                     break;
                 case ReplayableType.RE_ANIMATOR_SPEED:
-                    ((Animator)component).speed = XMLHelper.XMLToObject<float>(command[0]);
+                    ((Animator)obj).speed = XMLHelper.XMLToObject<float>(command[0]);
                     break;
                 case ReplayableType.RE_ANIMATOR_CROSS_FADE:
-                    ((Animator)component).CrossFade(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<float>(command[1]), XMLHelper.XMLToObject<int>(command[2]), XMLHelper.XMLToObject<float>(command[3]), XMLHelper.XMLToObject<float>(command[4]));
+                    ((Animator)obj).CrossFade(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<float>(command[1]), XMLHelper.XMLToObject<int>(command[2]), XMLHelper.XMLToObject<float>(command[3]), XMLHelper.XMLToObject<float>(command[4]));
                     break;
                 case ReplayableType.RE_ANIMATION_PLAY:
                     if (string.IsNullOrEmpty(XMLHelper.XMLToObject<string>(command[0])))
-                        ((Animation)component).Play(XMLHelper.XMLToObject<PlayMode>(command[1]));
+                        ((Animation)obj).Play(XMLHelper.XMLToObject<PlayMode>(command[1]));
                     else
-                        ((Animation)component).Play(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<PlayMode>(command[1]));
+                        ((Animation)obj).Play(XMLHelper.XMLToObject<string>(command[0]), XMLHelper.XMLToObject<PlayMode>(command[1]));
                     break;
                 case ReplayableType.RE_ANIMATION_STOP:
                     if (string.IsNullOrEmpty(XMLHelper.XMLToObject<string>(command[0])))
-                        ((Animation)component).Stop();
+                        ((Animation)obj).Stop();
                     else
-                        ((Animation)component).Stop(XMLHelper.XMLToObject<string>(command[0]));
+                        ((Animation)obj).Stop(XMLHelper.XMLToObject<string>(command[0]));
                     break;
                 case ReplayableType.RE_ANIMATION_REWIND:
                     if (string.IsNullOrEmpty(XMLHelper.XMLToObject<string>(command[0])))
-                        ((Animation)component).Rewind();
+                        ((Animation)obj).Rewind();
                     else
-                        ((Animation)component).Rewind(XMLHelper.XMLToObject<string>(command[0]));
+                        ((Animation)obj).Rewind(XMLHelper.XMLToObject<string>(command[0]));
                     break;
             }
+            return null;
         }
     }
 }

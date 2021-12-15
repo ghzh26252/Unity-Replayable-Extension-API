@@ -1,7 +1,5 @@
 # Unity可回放扩展API
-通过封装Unity API，以最少量修改，实现大部分常用影响画面表现的API的回放支持。
-## 原理
-对运行时的调用进行序列化并存储，根据时间戳还原调用以实现回放。可根据需要自行封装其他需要的API。也可拓展自定义的封装和解析，实现事件录制和回放。
+通过封装Unity API，对运行时的调用进行序列化并存储，根据时间戳还原调用以实现回放。以最少量修改，实现大部分常用影响画面表现的API的回放支持。
 ## 已实现功能及限制
 1. 录制和回放预制体从实例化到销毁的完整生命周期。
 2. 录制场景物体改动。
@@ -11,9 +9,9 @@
 6. 移动旋转等逐帧调用的API支持抽帧压缩，优化存储大小。最终文件也可压缩和加密。
 7. 支持自定义方法调用的录制和回放。
 ## 使用方法
-1. 需要录制和回放的场景物体和预制体最父级挂载RaplayableUnit脚本，此脚本挂载时将记录物体及其子物体上的所有组件引用。**后续修改该物体后，请点击Insprector面板上的“刷新引用”，某些修改将导致之前录制的回放失效。**
+1. 需要录制和回放的场景物体和预制体挂载RaplayableUnit脚本，此脚本将记录物体及其子物体上的所有组件引用。**后续修改该物体后，请点击Insprector面板上的“刷新引用”，某些修改将导致之前录制的回放失效。**
 2. 将ReplayableManager拖入场景中。
-3. 将挂载RaplayableUnit脚本的预制体添加进ReplayableManager/CreateManager(script)/ReplayablePrefabs(List)中。
+3. 将所有RaplayableUnit脚本的预制体和运行时用到的引用类型实例，添加进ReplayableManager/ReferenceManager(script)/references(List)中。
 4. 改变运行时调用的Unity API为下文所列可回放API。  
 5. **更多原理和使用方法可见示例场景**
 
@@ -41,8 +39,8 @@ Renderer.material.SetColor(string name, Color value)|==>|Renderer.ReColor(string
 Renderer.material[index].SetColor(string name, Color value)|==>|Renderer.ReColor(string name, Color value, int index)
 Renderer.material.SetVector(string name, Vector4 value)|==>|Renderer.ReVector(string name, Vector4 value)
 Renderer.material[index].SetVector(string name, Vector4 value)|==>|Renderer.ReVector(string name, Vector4 value, int index)
-~~Renderer.material.SetTexture(string name, Texture value)~~|==>|~~Renderer.ReTexture(string name, Texture value)~~
-~~Renderer.material[index].SetTexture(string name, Texture value)~~|==>|~~Renderer.ReTexture(string name, Texture value, int index)~~
+Renderer.material.SetTexture(string name, Texture value)|==>|~~Renderer.ReTexture(string name, Texture value)
+Renderer.material[index].SetTexture(string name, Texture value)|==>|~~Renderer.ReTexture(string name, Texture value, int index)
 ||
 Animator.SetInteger(int id, int value)|==>|Animator.ReInteger(int id, int value)
 Animator.SetInteger(string name, int value)|==>|Animator.ReInteger(string name, int value)

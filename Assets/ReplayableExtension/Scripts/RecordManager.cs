@@ -11,24 +11,8 @@ namespace ReplayableExtension
         {
             instance = this;
         }
-        public void Create(ReplayableUnit unit, string instanceID)
-        {
-            if (currentState == State.Recording)
-            {
-                List<string> command = new List<string>();
-                command.Add(instanceID);
-                currentData.Datas.Add(new Data
-                {
-                    time = currentTime,
-                    id = unit.ID,
-                    type = ReplayableType.RE_INSTANTIATE,
-                    command = command
-                });
-            }
-            Register(unit);
-        }
 
-        public void RecordCommand(string id, string type, List<string> command)
+        public Object RecordCommand(string id, string type, List<string> command)
         {
             Data data = new Data
             {
@@ -41,7 +25,7 @@ namespace ReplayableExtension
             if (currentState == State.Recording)
                 currentData.Datas.Add(data);
 
-            Parse(data.id, data.type, data.command);
+            return Parse(data.id, data.type, data.command);
         }
 
         public void StartRecord()

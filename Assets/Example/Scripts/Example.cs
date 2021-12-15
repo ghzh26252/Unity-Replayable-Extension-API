@@ -20,6 +20,8 @@ public class Example : MonoBehaviour
     public Text tips;
     new Camera camera;
 
+    public List<GameObject> prefab;
+    public List<Texture2D> tex;
     private void Start()
     {
         camera = Camera.main;
@@ -72,13 +74,10 @@ public class Example : MonoBehaviour
         {
             if (Physics.Raycast(camera.ScreenPointToRay(mousePosition), out RaycastHit hitInfo))
             {
-                if (hitInfo.transform.TryGetComponent<ReplayableUnit>(out _))
-                {
-                    tips.gameObject.SetActive(true);
-                    target.gameObject.ReActive(true);
-                    target.ReParent(hitInfo.transform);
-                    target.ReLoaclPosition(Vector3.zero);
-                }
+                tips.gameObject.SetActive(true);
+                target.gameObject.ReActive(true);
+                target.ReParent(hitInfo.transform);
+                target.ReLoaclPosition(Vector3.zero);
             }
         }
         if (Mouse.current.rightButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
@@ -87,13 +86,17 @@ public class Example : MonoBehaviour
             target.gameObject.ReActive(false);
             target.ReParent(null);
         }
-        if(target.parent != null)
+        if (target.parent)
         {
             if (Keyboard.current.digit1Key.wasPressedThisFrame)
                 target.parent.GetComponent<Animation>()?.RePlay();
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
-                target.parent.Find("1").GetComponent<Renderer>()?.ReColor("_Color",Random.ColorHSV());
+                target.parent.Find("1").GetComponent<Renderer>()?.ReColor("_Color", Random.ColorHSV());
             if (Keyboard.current.digit3Key.wasPressedThisFrame)
+            {
+                target.parent.Find("1").GetComponent<Renderer>()?.ReTexture("_MainTex", tex[Random.Range(0, tex.Count)]);
+            }
+            if (Keyboard.current.digit4Key.wasPressedThisFrame)
             {
                 GameObject parent = target.parent.gameObject;
                 tips.gameObject.SetActive(false);
@@ -110,7 +113,7 @@ public class Example : MonoBehaviour
             if (Keyboard.current.dKey.isPressed && !Keyboard.current.aKey.isPressed)
                 speedX = 1;
             else if (Keyboard.current.aKey.isPressed && !Keyboard.current.dKey.isPressed)
-                speedX= -1;
+                speedX = -1;
             else
                 speedX = 0;
             if (speedX != 0 || speedZ != 0)
@@ -121,27 +124,26 @@ public class Example : MonoBehaviour
     List<GameObject> buttonPrefabList = new List<GameObject>();
     void RefreshPrefabList()
     {
-        List<ReplayableUnit> list = CreateManager.instance.replayablePrefabs;
         foreach (var item in buttonPrefabList)
         {
             Destroy(item);
         }
         buttonPrefabList.Clear();
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < prefab.Count; i++)
         {
             Button oneReplay = Instantiate(prefabList, prefabList.transform.parent);
             oneReplay.gameObject.SetActive(true);
             ((RectTransform)oneReplay.transform).position += Vector3.down * i * ((RectTransform)oneReplay.transform).sizeDelta.y;
-            oneReplay.GetComponentInChildren<Text>().text = list[i].name;
+            oneReplay.GetComponentInChildren<Text>().text = prefab[i].name;
             int index = i;
             oneReplay.onClick.AddListener(() =>
             {
-                ReplayableUnit unit = ReplayableAPI.ReInstantiate(list[index]);
-                unit.transform.RePosition(camera.transform.position + new Vector3(0, -5, 7));
+                GameObject obj = ReplayableAPI.ReInstantiate(prefab[index]);
+                obj.transform.RePosition(camera.transform.position + new Vector3(0, -5, 7));
             });
             buttonPrefabList.Add(oneReplay.gameObject);
         }
-        ((RectTransform)prefabList.transform.parent.transform).sizeDelta = new Vector2(((RectTransform)prefabList.transform.parent.transform).sizeDelta.x, ((RectTransform)prefabList.transform).sizeDelta.y * list.Count);
+        ((RectTransform)prefabList.transform.parent.transform).sizeDelta = new Vector2(((RectTransform)prefabList.transform.parent.transform).sizeDelta.x, ((RectTransform)prefabList.transform).sizeDelta.y * prefab.Count);
     }
 
     List<GameObject> buttonReplayList = new List<GameObject>();

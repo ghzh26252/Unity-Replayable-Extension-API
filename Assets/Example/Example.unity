@@ -445,8 +445,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: ReplayableManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1922194710205048287, guid: dfd3f5478418fda499a74ff6f8463f30, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dfd3f5478418fda499a74ff6f8463f30, type: 3}
+--- !u!1 &247519643 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7292906566763780751, guid: dfd3f5478418fda499a74ff6f8463f30, type: 3}
+  m_PrefabInstance: {fileID: 247519642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &247519644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247519643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b43a68022afb95745929dfcc0ee767b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  references:
+  - {fileID: 1212010284132907423, guid: 7f144932feda79848a60b327b157bb7e, type: 3}
+  - {fileID: 7970302767958056164, guid: 99e035037d4e4a3469cbec5b97365ed2, type: 3}
+  - {fileID: 7970302767958056164, guid: 3406611ce6d0764458273157ae6461ad, type: 3}
+  - {fileID: 2800000, guid: a26bb6d6b8dc00949884990016757b59, type: 3}
+  - {fileID: 2800000, guid: f90f50acc0b35004ba2351316bc19c13, type: 3}
+  - {fileID: 2800000, guid: 3087d44ad3c44b14d89f807ce399cde1, type: 3}
+  objs:
+    list1:
+    - 7c3a2ba5-31e7-403f-9226-45eafa9c7503
+    - 1174009f-9a1c-4c19-85d3-d081cc3057f9
+    - 7a002ac1-80a2-4f6d-896b-30c4542293d7
+    - 7b1d7ebe-466d-4bef-a7d3-66681afd8bd4
+    - b7a76c30-f6b6-4dd2-8ea3-f0ed4fd7d438
+    - 4fefc517-ab67-45db-9211-9579504d53ba
+    list2:
+    - {fileID: 1212010284132907423, guid: 7f144932feda79848a60b327b157bb7e, type: 3}
+    - {fileID: 7970302767958056164, guid: 99e035037d4e4a3469cbec5b97365ed2, type: 3}
+    - {fileID: 7970302767958056164, guid: 3406611ce6d0764458273157ae6461ad, type: 3}
+    - {fileID: 2800000, guid: a26bb6d6b8dc00949884990016757b59, type: 3}
+    - {fileID: 2800000, guid: f90f50acc0b35004ba2351316bc19c13, type: 3}
+    - {fileID: 2800000, guid: 3087d44ad3c44b14d89f807ce399cde1, type: 3}
 --- !u!1 &269535968
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,7 +785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000016699287}
+  m_AnchoredPosition: {x: 0, y: 0.00031205258}
   m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &705507993
@@ -1048,21 +1088,18 @@ MonoBehaviour:
   objs:
     list1:
     - e862a318-87b0-4f55-a201-85ccfec7e9c8
-    - 4fecfe3e-bcac-4b7d-80e6-1bf04a5633b1
     - 14681586-de74-4d15-8130-840028048d1b
     - 173539a6-fd09-43c6-994d-5ff219c64a08
     - 484b8a46-e9f3-459a-89ae-1a681c4572eb
+    - 8bb458a5-c317-403a-a8e9-23dc08ff66d7
     list2:
     - {fileID: 963194228}
-    - {fileID: 963194225}
     - {fileID: 963194227}
     - {fileID: 963194226}
     - {fileID: 963194229}
+    - {fileID: 963194225}
   m_id: 881886ea-920c-4db3-bad2-a1b39995aca7
   isAdvance: 1
-  CustomCommand:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1152661802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,7 +1545,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1418034829}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.44591898
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1752,7 +1789,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u9F20\u6807\u5DE6\u952E\uFF1A\u9009\u62E9\u7269\u4F53\n\u9F20\u6807\u53F3\u952E\uFF1A\u53D6\u6D88\u9009\u62E9\nWASD\uFF1A\u79FB\u52A8\u7269\u4F53\n1\uFF1A\u64AD\u653E\u52A8\u753B\n2\uFF1A\u968F\u673A\u6750\u8D28\u989C\u8272\n3\uFF1A\u9500\u6BC1\u7269\u4F53"
+  m_Text: "\u9F20\u6807\u5DE6\u952E\uFF1A\u9009\u62E9\u7269\u4F53\n\u9F20\u6807\u53F3\u952E\uFF1A\u53D6\u6D88\u9009\u62E9\nWASD\uFF1A\u79FB\u52A8\u7269\u4F53\n1\uFF1A\u64AD\u653E\u52A8\u753B\n2\uFF1A\u968F\u673A\u6750\u8D28\u989C\u8272\n3\uFF1A\u968F\u673A\u6750\u8D28\u8D34\u56FE\n4\uFF1A\u9500\u6BC1\u7269\u4F53"
 --- !u!222 &1498769597
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1905,6 +1942,14 @@ MonoBehaviour:
   replayList: {fileID: 1924614501}
   target: {fileID: 1824196369}
   tips: {fileID: 1498769596}
+  prefab:
+  - {fileID: 1212010284132907423, guid: 7f144932feda79848a60b327b157bb7e, type: 3}
+  - {fileID: 7970302767958056164, guid: 99e035037d4e4a3469cbec5b97365ed2, type: 3}
+  - {fileID: 7970302767958056164, guid: 3406611ce6d0764458273157ae6461ad, type: 3}
+  tex:
+  - {fileID: 2800000, guid: a26bb6d6b8dc00949884990016757b59, type: 3}
+  - {fileID: 2800000, guid: f90f50acc0b35004ba2351316bc19c13, type: 3}
+  - {fileID: 2800000, guid: 3087d44ad3c44b14d89f807ce399cde1, type: 3}
 --- !u!1 &1603612413
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,7 +2273,6 @@ GameObject:
   - component: {fileID: 1725756101}
   - component: {fileID: 1725756100}
   - component: {fileID: 1725756099}
-  - component: {fileID: 1725756098}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -2236,20 +2280,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &1725756098
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1725756097}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1725756099
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2345,27 +2375,24 @@ MonoBehaviour:
   objs:
     list1:
     - dedd2de3-5341-493a-ae2a-97286c8832a7
-    - 4461fa2e-4e2a-4553-86f7-43769397d680
     - d37ad04e-ca7c-4eaf-ab51-7f315017f643
     - 39462e41-e976-4737-831e-685a9da4fd55
-    - 7d639c5f-49d8-411e-b1b9-17b4a75818d6
     - bd62c4f0-c482-45ff-8f80-7a2e04de3a14
     - 85a82815-d272-4433-808a-43ac53227cbb
     - a622fd0d-ee95-4188-897b-8513fed5f055
+    - 96e5f965-b0a4-4f3e-8fb4-15ea382d3d7f
+    - e892878b-71b3-4803-b820-2fe1412c3edb
     list2:
     - {fileID: 1824196369}
-    - {fileID: 1824196367}
     - {fileID: 1824196368}
     - {fileID: 659576394}
-    - {fileID: 659576390}
     - {fileID: 659576393}
     - {fileID: 659576392}
     - {fileID: 659576391}
+    - {fileID: 659576390}
+    - {fileID: 1824196367}
   m_id: 90b05845-5386-49f5-a6e9-4691ddc1bf8b
   isAdvance: 1
-  CustomCommand:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1824196369
 Transform:
   m_ObjectHideFlags: 0

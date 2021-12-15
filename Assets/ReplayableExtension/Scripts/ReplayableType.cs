@@ -5,10 +5,6 @@ namespace ReplayableExtension
 
         public const string RE_INSTANTIATE = "Instantiate";
 
-        public const string RE_END = "End";
-
-        public const string RE_CUSTOMEVENT = "CutomEvent";
-
         public const string RE_DESTORY = "Destory";
 
         public const string RE_ACTIVE = "Active";
@@ -30,6 +26,8 @@ namespace ReplayableExtension
         public const string RE_MATERIAL_COLOR = "MaterialColor";
 
         public const string RE_MATERIAL_VECTOR = "MaterialVector";
+
+        public const string RE_MATERIAL_TEXTURE = "MaterialTexture";
 
         public const string RE_ANIMATOR_INTEGER = "AnimatorInteger";
 
@@ -53,6 +51,10 @@ namespace ReplayableExtension
 
         public const string RE_ANIMATION_REWIND = "AnimationRewind";
 
+        public const string RE_END = "End";
+
+        public const string RE_CUSTOMEVENT = "CutomEvent";
+
         public static bool AllowCompress(string type)
         {
             switch (type)
@@ -63,17 +65,6 @@ namespace ReplayableExtension
                 case RE_EULER_ANGLES:
                 case RE_LOCAL_EULER_ANGLES:
                 case RE_SCALE:
-                case RE_ANIMATOR_INTEGER:
-                case RE_ANIMATOR_FLOAT:
-                case RE_ANIMATOR_BOOL:
-                case RE_ANIMATOR_TRIGGER:
-                case RE_ANIMATOR_RESET_TRIGGER:
-                case RE_ANIMATOR_PLAY:
-                case RE_ANIMATOR_SPEED:
-                case RE_ANIMATOR_CROSS_FADE:
-                case RE_ANIMATION_PLAY:
-                case RE_ANIMATION_STOP:
-                case RE_ANIMATION_REWIND:
                     return true;
                 default:
                     return false;

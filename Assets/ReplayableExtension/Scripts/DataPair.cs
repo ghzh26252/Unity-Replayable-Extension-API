@@ -57,6 +57,13 @@ public class DataPair<T1, T2>
         else
             Debug.LogError("添加失败，数据重复");
     }
+    public void AddRange(DataPair<T1, T2> pairs)
+    {
+        foreach (var item in pairs)
+        {
+            Add(item.Key, item.Value);
+        }
+    }
     public void Remove(T1 t1)
     {
         int i = list1.IndexOf(t1);

@@ -130,29 +130,26 @@ MonoBehaviour:
   objs:
     list1:
     - e4df8c6f-89f2-4b3b-b810-6dc17aaf532c
-    - aa5a6388-4891-40be-96fb-38024857e3e5
     - 00406ea1-8af8-440e-96a6-223b2e222ddb
     - 528246f5-1624-482b-9c01-9bf0474500e3
     - ecb378c9-9ee7-4cd0-9864-2327f4dd7bf1
     - 7155bca2-a226-4f98-b045-6aa99c47dd28
-    - ab6a63fa-4727-402b-b719-ac5acec109bc
     - 678a6cfb-a7d0-495e-954a-bdf40b6c6d14
     - 6972c9be-0482-4dcc-982d-a47f87f77c0d
+    - 5f625fff-44aa-4220-9f93-9f8295f76f54
+    - 29b48a59-3f7d-4d40-bda4-851825ae68d9
     list2:
     - {fileID: 5345938071293359256}
-    - {fileID: 7970302767958056164}
     - {fileID: 7974028340983711918}
     - {fileID: 1286159803490053652}
     - {fileID: 4223342996893296157}
     - {fileID: 6112503244829119163}
-    - {fileID: 2821114852004591806}
     - {fileID: 5164234292956402169}
     - {fileID: 2548189398363111835}
+    - {fileID: 2821114852004591806}
+    - {fileID: 7970302767958056164}
   m_id: 0a42e801-dfd7-46d3-bccb-6823162117d9
   isAdvance: 1
-  CustomCommand:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &1286159803490053652
 BoxCollider:
   m_ObjectHideFlags: 0

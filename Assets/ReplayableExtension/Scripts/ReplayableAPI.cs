@@ -8,15 +8,14 @@ namespace ReplayableExtension
         /// <summary>
         /// Instantiate
         /// </summary>
-        public static ReplayableUnit ReInstantiate(ReplayableUnit unit, bool record = true)
+        public static GameObject ReInstantiate(GameObject obj)
         {
-            string id = CreateManager.instance.replayableUnitID.Get(unit);
+            string id = RecordAndReplayBase.GetID(obj);
             if (string.IsNullOrEmpty(id)) return null;
-            ReplayableUnit m_unit = GameObject.Instantiate(unit);
-            m_unit.ID = null;
-            m_unit.isAdvance = false;
-            if (record) RecordManager.instance.Create(m_unit, id);
-            return m_unit;
+
+            List<string> commands = new List<string>();
+            commands.Add(XMLHelper.ObjectToXML(System.Guid.NewGuid().ToString()));
+            return (GameObject)RecordManager.instance.RecordCommand(id, ReplayableType.RE_INSTANTIATE, commands);
         }
         /// <summary>
         /// Destory
@@ -34,7 +33,7 @@ namespace ReplayableExtension
         /// </summary>
         public static void ReActive(this GameObject gameObject, bool value)
         {
-            string id = RecordAndReplayBase.GetID(gameObject.transform);
+            string id = RecordAndReplayBase.GetID(gameObject);
             if (string.IsNullOrEmpty(id)) return;
 
             List<string> commands = new List<string>();
@@ -51,9 +50,10 @@ namespace ReplayableExtension
 
             List<string> commands = new List<string>();
 
-            string idParent = RecordAndReplayBase.GetID(parent);
-            if (idParent != null)
+            if (parent != null)
             {
+                string idParent = RecordAndReplayBase.GetID(parent);
+                if (string.IsNullOrEmpty(idParent)) return;
                 commands.Add(XMLHelper.ObjectToXML(idParent));
             }
             RecordManager.instance.RecordCommand(id, ReplayableType.RE_PARENT, commands);
@@ -143,6 +143,23 @@ namespace ReplayableExtension
             commands.Add(XMLHelper.ObjectToXML(value));
             commands.Add(XMLHelper.ObjectToXML(index));
             RecordManager.instance.RecordCommand(id, ReplayableType.RE_MATERIAL_VECTOR, commands);
+        }
+        public static void ReTexture(this Renderer component, string name, Texture value, int index = 0)
+        {
+            Debug.Log(value.name);
+            string id = RecordAndReplayBase.GetID(component);
+            if (string.IsNullOrEmpty(id)) return;
+
+            List<string> commands = new List<string>();
+            commands.Add(XMLHelper.ObjectToXML(name));
+            if (value != null)
+            {
+                string idValue = RecordAndReplayBase.GetID(value);
+                if (string.IsNullOrEmpty(idValue)) return;
+                commands.Add(XMLHelper.ObjectToXML(idValue));
+            }
+            commands.Add(XMLHelper.ObjectToXML(index));
+            RecordManager.instance.RecordCommand(id, ReplayableType.RE_MATERIAL_TEXTURE, commands);
         }
         /// <summary>
         /// Animator

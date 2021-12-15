@@ -18,20 +18,20 @@ namespace ReplayableExtension
         {
             instance = this;
         }
-        public void Create(string unitID, string command)
-        {
-            if (currentState != State.Replaying) return;
-            if (runtimeObject.Contains(unitID)) return;
-            ReplayableUnit unit = CreateManager.instance.replayableUnitID.Get(command);
-            if (unit == null)
-            {
-                Debug.LogError("未找到预制体");
-                return;
-            }
-            ReplayableUnit m_unit = ReplayableAPI.ReInstantiate(unit, false);
-            m_unit.ID = unitID;
-            Register(m_unit);
-        }
+        //public void Create(string unitID, string command)
+        //{
+        //    if (currentState != State.Replaying) return;
+        //    if (runtimeObject.Contains(unitID)) return;
+        //    ReplayableUnit unit = (ReplayableUnit)advanceObject.Get(command);
+        //    if (unit == null)
+        //    {
+        //        Debug.LogError("未找到预制体");
+        //        return;
+        //    }
+        //    ReplayableUnit m_unit = ReplayableAPI.ReInstantiate(unit, false);
+        //    m_unit.ID = unitID;
+        //    Register(m_unit);
+        //}
 
 
         public void StartReplay(string filePath, Action<float> onReplayProgress = null)
@@ -59,10 +59,6 @@ namespace ReplayableExtension
                 }
                 switch (data.type)
                 {
-                    
-                    case ReplayableType.RE_INSTANTIATE:
-                        Create(data.id, data.command[0]);
-                        break;
                     default:
                         Parse(data.id, data.type, data.command);
                         break;
