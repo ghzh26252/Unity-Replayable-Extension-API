@@ -6,10 +6,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class Example : MonoBehaviour
 {
-    public int movePixel = 20;
+    public int movePixel = 50;
     public float moveSpeed = 0.1f;
 
     public Toggle record;
@@ -38,7 +39,14 @@ public class Example : MonoBehaviour
             }
             else
             {
-                RecordManager.instance.EndRecord(Path.Combine(Application.streamingAssetsPath, "Replay"), System.DateTime.Now.ToString("yyyyMMddHHmmss"));
+                string name = System.DateTime.Now.ToString("yyyyMMddHHmmss");
+#if UNITY_WEBGL
+
+                RecordAndReplayBase.ReplayableData data = RecordManager.instance.EndRecord();
+                webCache.Add(name, data);
+#else
+                RecordManager.instance.EndRecord(Path.Combine(Application.streamingAssetsPath, "Replay"), name);
+#endif
                 record.GetComponentInChildren<Text>().text = "开始录制";
                 RefreshReplayList();
             }
@@ -147,10 +155,17 @@ public class Example : MonoBehaviour
     }
 
     List<GameObject> buttonReplayList = new List<GameObject>();
+
+
+    Dictionary<string, RecordAndReplayBase.ReplayableData> webCache = new Dictionary<string, RecordAndReplayBase.ReplayableData>();
+
     void RefreshReplayList()
     {
+#if UNITY_WEBGL
+        List<string> list = webCache.Keys.ToList();
+#else
         List<string> list = new List<string>(Directory.GetFiles(Path.Combine(Application.streamingAssetsPath, "Replay"), "*.replay"));
-
+#endif
         foreach (var item in buttonReplayList)
         {
             Destroy(item);
@@ -165,7 +180,12 @@ public class Example : MonoBehaviour
             int index = i;
             oneReplay.onClick.AddListener(() =>
             {
+#if UNITY_WEBGL
+                ReplayManager.instance.StartReplay(webCache[list[index]]);
+#else
                 ReplayManager.instance.StartReplay(list[index]);
+#endif
+
             });
             buttonReplayList.Add(oneReplay.gameObject);
         }

@@ -38,10 +38,10 @@ namespace ReplayableExtension
             base.Begin();
             currentState = State.Recording;
         }
-        public void EndRecord(string filePath = null, string fileName = null, int interval = 0)
+        public ReplayableData EndRecord(string filePath = null, string fileName = null, int interval = 0)
         {
-            if (currentState != State.Recording) return;
-            if (currentData == null) return;
+            if (currentState != State.Recording) return null;
+            if (currentData == null) return null;
 
             currentData.Datas.Add(new Data
             {
@@ -53,13 +53,17 @@ namespace ReplayableExtension
             if (interval > 0)
                 currentData = Compress(currentData, interval);
 
+            ReplayableData resultData = XMLHelper.XMLToObject<ReplayableData>(XMLHelper.ObjectToXML(currentData));
+            Exit();
+
             if (!string.IsNullOrEmpty(filePath) && !string.IsNullOrEmpty(fileName))
             {
                 if (!fileName.EndsWith(".replay"))
                     fileName += ".replay";
-                XMLHelper.SaveToFile(currentData, Path.Combine(filePath, fileName), true, true);
+                XMLHelper.SaveToFile(resultData, Path.Combine(filePath, fileName), true, true);
             }
-            Exit();
+
+            return resultData;
         }
         ReplayableData Compress(ReplayableData recordData, int Interval)
         {

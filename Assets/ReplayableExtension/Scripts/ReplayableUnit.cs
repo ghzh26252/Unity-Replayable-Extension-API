@@ -81,10 +81,14 @@ namespace ReplayableExtension
                 }
             }
             objs.Optimize(objects);
+#if UNITY_EDITOR
             EditorUtility.SetDirty(this);
+#endif
         }
     }
 
+
+#if UNITY_EDITOR
     [CustomEditor(typeof(ReplayableUnit))]
     public class ReplayableUnitEditor : Editor
     {
@@ -98,4 +102,5 @@ namespace ReplayableExtension
             }
         }
     }
+#endif
 }

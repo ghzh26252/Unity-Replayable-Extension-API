@@ -13,7 +13,6 @@ namespace ReplayableExtension
         [HideInInspector]
         public DataPair<string, Object> objs = new DataPair<string, Object>();
 
-
         private void OnValidate()
         {
             RefreshReference();
@@ -35,10 +34,14 @@ namespace ReplayableExtension
                 }
             }
             objs.Optimize(references);
+#if UNITY_EDITOR
             EditorUtility.SetDirty(this);
+#endif
         }
+
     }
 
+#if UNITY_EDITOR
     [CustomEditor(typeof(ReferenceManager))]
     public class ReferenceManagerEditor : Editor
     {
@@ -52,4 +55,5 @@ namespace ReplayableExtension
             }
         }
     }
+#endif
 }

@@ -36,6 +36,12 @@ namespace ReplayableExtension
 
         public void StartReplay(string filePath, Action<float> onReplayProgress = null)
         {
+            ReplayableData data = XMLHelper.LoadFromFile<ReplayableData>(filePath, true, true);
+            if (data == null) return;
+            StartReplay(data);
+        }
+        public void StartReplay(ReplayableData data, Action<float> onReplayProgress = null)
+        {
             if (currentState != State.None)
             {
                 Debug.LogError("当前状态无法开始回放");
@@ -45,9 +51,10 @@ namespace ReplayableExtension
             base.Begin();
             currentState = State.Replaying;
             OnReplayProgress = onReplayProgress;
-            currentData = XMLHelper.LoadFromFile<ReplayableData>(filePath, true, true);
+            currentData = data;
             currentReplay = StartCoroutine(Play());
         }
+
         IEnumerator Play()
         {
             foreach (Data data in currentData.Datas)

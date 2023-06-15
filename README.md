@@ -1,5 +1,6 @@
 # Unity可回放扩展API
 通过封装Unity API，对运行时的调用进行序列化并存储，根据时间戳还原调用以实现回放。以最少量修改，实现大部分常用影响画面表现的API的回放支持。
+[Web Demo](https://ghzh26252.github.io/Unity-Replayable-Extension-API/)
 ## 已实现功能及限制
 1. 录制和回放预制体从实例化到销毁的完整生命周期。
 2. 录制场景物体改动。
