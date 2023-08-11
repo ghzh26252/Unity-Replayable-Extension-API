@@ -1,43 +1,49 @@
-# Unity Replayable Extension API
+# Unity可回放扩展API
 
 [中文](https://github.com/ghzh26252/Unity-Replayable-Extension-API/blob/main/README_CN.md)|[English](https://github.com/ghzh26252/Unity-Replayable-Extension-API/blob/main/README.md)
 
-This is a project that provides an extension to Unity's API to enable recording and playback of runtime calls by serializing and storing them. Playback is achieved by restoring calls based on timestamps. The goal is to support replay functionality for the majority of commonly used APIs that affect visual presentation, with minimal modifications.
+通过封装Unity API，对运行时的调用进行序列化并存储，根据时间戳还原调用以实现回放。以最少量修改，实现大部分常用影响画面表现的API的回放支持。
 
 [Web Demo](https://ghzh26252.github.io/Unity-Replayable-Extension-API/)
 
 ---
 
-## Implemented Features and Limitations
+## 已实现功能及限制
 
-1. Recording and playback of the complete lifecycle of prefabs from instantiation to destruction.
-2. Recording of changes to scene objects.
-3. Start and stop recording at any time.
-4. When starting recording or playback, any prefabs created will be cleared, and some initial state of scene objects will be restored.
-5. Playback supports using TimeScale to achieve pause, acceleration, and deceleration effects. However, due to unpredictable animations, precise time skipping is not perfectly supported.
-6. APIs called frame by frame, such as movement and rotation, support frame reduction compression to optimize storage size. The final files can also be compressed and encrypted.
-7. Custom method calls can be recorded and played back.
+1. 录制和回放预制体从实例化到销毁的完整生命周期。
+
+2. 录制场景物体改动。
+
+3. 随时开启和终止录制。
+
+4. 开始录制/开始回放时将清除所创建的预制体，并还原场景物体的一些初始状态。
+
+5. 回放可使用TimeScale实现暂停加速减速，但因为动画等不可预测，不能完美支持时间跳转。
+
+6. 移动旋转等逐帧调用的API支持抽帧压缩，优化存储大小。最终文件也可压缩和加密。
+
+7. 支持自定义方法调用的录制和回放。
 
 ---
 
-## Usage Instructions
+## 使用方法
 
-1. Attach the `ReplayableUnit` script to scene objects and prefabs that need to be recorded and played back. This script records references to all components on the object and its child objects. **After making modifications to such objects, click "Refresh References" in the Inspector panel. Certain modifications may invalidate previously recorded replays.**
+1. 需要录制和回放的场景物体和预制体挂载RaplayableUnit脚本，此脚本将记录物体及其子物体上的所有组件引用。**后续修改该物体后，请点击Insprector面板上的“刷新引用”，某些修改将导致之前录制的回放失效。**
 
-2. Place the `ReplayableManager` in the scene.
+2. 将ReplayableManager拖入场景中。
 
-3. Add the prefabs and runtime reference instances used by all `ReplayableUnit` scripts to `ReplayableManager/ReferenceManager(script)/references(List)`.
+3. 将所有RaplayableUnit脚本的预制体和运行时用到的引用类型实例，添加进ReplayableManager/ReferenceManager(script)/references(List)中。
 
-4. Replace Unity API calls with the corresponding replayable APIs listed below.
+4. 改变运行时调用的Unity API为下文所列可回放API。  
 
-5. **For more details on principles and usage, refer to the example scenes.**
+5. **更多原理和使用方法可见示例场景**
 
 ---
 
 ## API
 
-Replace the following Unity APIs with their corresponding replayable APIs:
-Unity API|==>|Replayable API
+需将以下Unity API改为对应的可回放API：
+Unity API|==>|可回放API
 -|-|-
 (Static)GameObject.Instantiate(ReplayableUnit unit)|==>|(Static)ReplayableAPI.ReInstantiate(ReplayableUnit unit)
 ||
