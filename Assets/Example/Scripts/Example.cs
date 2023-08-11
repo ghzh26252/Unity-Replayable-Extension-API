@@ -18,7 +18,6 @@ public class Example : MonoBehaviour
     public Button replayList;
 
     public Transform target;
-    public Text tips;
     new Camera camera;
 
     public List<GameObject> prefab;
@@ -26,7 +25,6 @@ public class Example : MonoBehaviour
     private void Start()
     {
         camera = Camera.main;
-        tips.gameObject.SetActive(false);
         prefabList.gameObject.SetActive(false);
         replayList.gameObject.SetActive(false);
 
@@ -35,7 +33,7 @@ public class Example : MonoBehaviour
             if (b)
             {
                 RecordManager.instance.StartRecord();
-                record.GetComponentInChildren<Text>().text = "结束录制";
+                record.GetComponentInChildren<Text>().text = "End Record";
             }
             else
             {
@@ -47,13 +45,12 @@ public class Example : MonoBehaviour
 #else
                 RecordManager.instance.EndRecord(Path.Combine(Application.streamingAssetsPath, "Replay"), name);
 #endif
-                record.GetComponentInChildren<Text>().text = "开始录制";
+                record.GetComponentInChildren<Text>().text = "Start Record";
                 RefreshReplayList();
             }
         });
 
         RefreshPrefabList();
-
 
         RefreshReplayList();
     }
@@ -82,7 +79,6 @@ public class Example : MonoBehaviour
         {
             if (Physics.Raycast(camera.ScreenPointToRay(mousePosition), out RaycastHit hitInfo))
             {
-                tips.gameObject.SetActive(true);
                 target.gameObject.ReActive(true);
                 target.ReParent(hitInfo.transform);
                 target.ReLoaclPosition(Vector3.zero);
@@ -90,24 +86,22 @@ public class Example : MonoBehaviour
         }
         if (Mouse.current.rightButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
         {
-            tips.gameObject.SetActive(false);
             target.gameObject.ReActive(false);
             target.ReParent(null);
         }
         if (target.parent)
         {
-            if (Keyboard.current.digit1Key.wasPressedThisFrame)
+            if (Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame)
                 target.parent.GetComponent<Animation>()?.RePlay();
-            if (Keyboard.current.digit2Key.wasPressedThisFrame)
+            if (Keyboard.current.digit2Key.wasPressedThisFrame || Keyboard.current.numpad2Key.wasPressedThisFrame)
                 target.parent.Find("1").GetComponent<Renderer>()?.ReColor("_Color", Random.ColorHSV());
-            if (Keyboard.current.digit3Key.wasPressedThisFrame)
+            if (Keyboard.current.digit3Key.wasPressedThisFrame || Keyboard.current.numpad3Key.wasPressedThisFrame)
             {
                 target.parent.Find("1").GetComponent<Renderer>()?.ReTexture("_MainTex", tex[Random.Range(0, tex.Count)]);
             }
-            if (Keyboard.current.digit4Key.wasPressedThisFrame)
+            if (Keyboard.current.digit4Key.wasPressedThisFrame || Keyboard.current.numpad4Key.wasPressedThisFrame)
             {
                 GameObject parent = target.parent.gameObject;
-                tips.gameObject.SetActive(false);
                 target.gameObject.ReActive(false);
                 target.ReParent(null);
                 ReplayableAPI.ReDestroy(parent);
