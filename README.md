@@ -37,44 +37,45 @@ This is a project that provides an extension to Unity's API to enable recording 
 ## API
 
 Replace the following Unity APIs with their corresponding replayable APIs:
-Unity API|==>|Replayable API
--|-|-
-(Static)GameObject.Instantiate(ReplayableUnit unit)|==>|(Static)ReplayableAPI.ReInstantiate(ReplayableUnit unit)
-||
-(Static)GameObject.Destroy(ReplayableUnit unit)|==>|(Static)ReplayableAPI.ReDestroy(ReplayableUnit unit)
-||
-GameObject.SetActive(bool value)|==>|GameObject.ReActive(bool value)
-||
-Transform.SetParent(Transform transform)|==>|Transform.ReParent(Transform transform)
-(Property)Transform.parent = Transform transform|==>|Transform.ReParent(Transform transform)
-(Property)Transform.positon = Vector3 value|==>|Transform.RePosition(Vector3 value)
-(Property)Transform.localPositon = Vector3 value|==>|Transform.ReLoaclPosition(Vector3 value)
-(Property)Transform.eulerAngles = Vector3 value|==>|Transform.ReRotation(Vector3 value)
-(Property)Transform.localeulerAngles = Vector3 value|==>|Transform.ReLoaclRotation(Vector3 value)
-(Property)Transform.localScale = Vector3 value|==>|Transform.ReScale(Vector3 value)
-||
-Renderer.material.SetFloat(string name, float value)|==>|Renderer.ReFloat(string name, float value)
-Renderer.material[index].SetFloat(string name, float value)|==>|Renderer.ReFloat(string name, float value, int index)
-Renderer.material.SetColor(string name, Color value)|==>|Renderer.ReColor(string name, Color value)
-Renderer.material[index].SetColor(string name, Color value)|==>|Renderer.ReColor(string name, Color value, int index)
-Renderer.material.SetVector(string name, Vector4 value)|==>|Renderer.ReVector(string name, Vector4 value)
-Renderer.material[index].SetVector(string name, Vector4 value)|==>|Renderer.ReVector(string name, Vector4 value, int index)
-Renderer.material.SetTexture(string name, Texture value)|==>|~~Renderer.ReTexture(string name, Texture value)
-Renderer.material[index].SetTexture(string name, Texture value)|==>|~~Renderer.ReTexture(string name, Texture value, int index)
-||
-Animator.SetInteger(int id, int value)|==>|Animator.ReInteger(int id, int value)
-Animator.SetInteger(string name, int value)|==>|Animator.ReInteger(string name, int value)
-Animator.SetFloat(int id, float value)|==>|Animator.ReFloat(int id, float value)
-Animator.SetFloat(string name, float value)|==>|Animator.ReFloat(string name, float value)
-Animator.SetBool(int id, bool value)|==>|Animator.ReBool(int id, bool value)
-Animator.SetBool(string name, bool value)|==>|Animator.ReBool(string name, bool value)
-Animator.SetTrigger(int id)|==>|Animator.ReTrigger(int id)
-Animator.SetTrigger(string name)|==>|Animator.ReTrigger(string name)
-Animator.ReSetTrigger(int id)|==>|Animator.ReReSetTrigger(int id)
-Animator.ReSetTrigger(string name)|==>|Animator.ReReSetTrigger(string name)
-Animator.Play(string stateName, int layer = -1, float normalizedTime = float.NegativeInfinity)|==>|Animator.RePlay(string stateName, int layer = -1, float normalizedTime = float.NegativeInfinity)
-(Property)Animator.speed = float value|==>|Animator.ReSpeed(float value)
-||
-Animation.Play(string animation = null, PlayMode mode = PlayMode.StopSameLayer)|==>|Animation.RePlay(string animation = null, PlayMode mode = PlayMode.StopSameLayer)
-Animation.Stop(string animation = null)|==>|Animation.ReStop(string animation = null)
-Animation.Rewind(string animation = null)|==>|Animation.ReRewind(string animation = null)
+
+| Unity API                                                                                      | ==&gt; | Replayable API                                                                                   |
+| ---------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------ |
+| (Static)GameObject.Instantiate(ReplayableUnit unit)                                            | ==&gt; | (Static)ReplayableAPI.ReInstantiate(ReplayableUnit unit)                                         |
+|                                                                                                |        |                                                                                                  |
+| (Static)GameObject.Destroy(ReplayableUnit unit)                                                | ==&gt; | (Static)ReplayableAPI.ReDestroy(ReplayableUnit unit)                                             |
+|                                                                                                |        |                                                                                                  |
+| GameObject.SetActive(bool value)                                                               | ==&gt; | GameObject.ReActive(bool value)                                                                  |
+|                                                                                                |        |                                                                                                  |
+| Transform.SetParent(Transform transform)                                                       | ==&gt; | Transform.ReParent(Transform transform)                                                          |
+| (Property)Transform.parent = Transform transform                                               | ==&gt; | Transform.ReParent(Transform transform)                                                          |
+| (Property)Transform.positon = Vector3 value                                                    | ==&gt; | Transform.RePosition(Vector3 value)                                                              |
+| (Property)Transform.localPositon = Vector3 value                                               | ==&gt; | Transform.ReLoaclPosition(Vector3 value)                                                         |
+| (Property)Transform.eulerAngles = Vector3 value                                                | ==&gt; | Transform.ReRotation(Vector3 value)                                                              |
+| (Property)Transform.localeulerAngles = Vector3 value                                           | ==&gt; | Transform.ReLoaclRotation(Vector3 value)                                                         |
+| (Property)Transform.localScale = Vector3 value                                                 | ==&gt; | Transform.ReScale(Vector3 value)                                                                 |
+|                                                                                                |        |                                                                                                  |
+| Renderer.material.SetFloat(string name, float value)                                           | ==&gt; | Renderer.ReFloat(string name, float value)                                                       |
+| Renderer.material\[index\].SetFloat(string name, float value)                                  | ==&gt; | Renderer.ReFloat(string name, float value, int index)                                            |
+| Renderer.material.SetColor(string name, Color value)                                           | ==&gt; | Renderer.ReColor(string name, Color value)                                                       |
+| Renderer.material\[index\].SetColor(string name, Color value)                                  | ==&gt; | Renderer.ReColor(string name, Color value, int index)                                            |
+| Renderer.material.SetVector(string name, Vector4 value)                                        | ==&gt; | Renderer.ReVector(string name, Vector4 value)                                                    |
+| Renderer.material\[index\].SetVector(string name, Vector4 value)                               | ==&gt; | Renderer.ReVector(string name, Vector4 value, int index)                                         |
+| Renderer.material.SetTexture(string name, Texture value)                                       | ==&gt; | \~\~Renderer.ReTexture(string name, Texture value)                                               |
+| Renderer.material\[index\].SetTexture(string name, Texture value)                              | ==&gt; | \~\~Renderer.ReTexture(string name, Texture value, int index)                                    |
+|                                                                                                |        |                                                                                                  |
+| Animator.SetInteger(int id, int value)                                                         | ==&gt; | Animator.ReInteger(int id, int value)                                                            |
+| Animator.SetInteger(string name, int value)                                                    | ==&gt; | Animator.ReInteger(string name, int value)                                                       |
+| Animator.SetFloat(int id, float value)                                                         | ==&gt; | Animator.ReFloat(int id, float value)                                                            |
+| Animator.SetFloat(string name, float value)                                                    | ==&gt; | Animator.ReFloat(string name, float value)                                                       |
+| Animator.SetBool(int id, bool value)                                                           | ==&gt; | Animator.ReBool(int id, bool value)                                                              |
+| Animator.SetBool(string name, bool value)                                                      | ==&gt; | Animator.ReBool(string name, bool value)                                                         |
+| Animator.SetTrigger(int id)                                                                    | ==&gt; | Animator.ReTrigger(int id)                                                                       |
+| Animator.SetTrigger(string name)                                                               | ==&gt; | Animator.ReTrigger(string name)                                                                  |
+| Animator.ReSetTrigger(int id)                                                                  | ==&gt; | Animator.ReReSetTrigger(int id)                                                                  |
+| Animator.ReSetTrigger(string name)                                                             | ==&gt; | Animator.ReReSetTrigger(string name)                                                             |
+| Animator.Play(string stateName, int layer = -1, float normalizedTime = float.NegativeInfinity) | ==&gt; | Animator.RePlay(string stateName, int layer = -1, float normalizedTime = float.NegativeInfinity) |
+| (Property)Animator.speed = float value                                                         | ==&gt; | Animator.ReSpeed(float value)                                                                    |
+|                                                                                                |        |                                                                                                  |
+| Animation.Play(string animation = null, PlayMode mode = PlayMode.StopSameLayer)                | ==&gt; | Animation.RePlay(string animation = null, PlayMode mode = PlayMode.StopSameLayer)                |
+| Animation.Stop(string animation = null)                                                        | ==&gt; | Animation.ReStop(string animation = null)                                                        |
+| Animation.Rewind(string animation = null)                                                      | ==&gt; | Animation.ReRewind(string animation = null)                                                      |
